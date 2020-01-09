@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.15.1
-Release: 16%{?dist}.1
+Release: 16%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -29,7 +29,6 @@ Patch35: busybox-1.15.1-udhcp.patch
 Patch36: busybox-1.15.1-uncompress.patch
 Patch37: busybox-1.15.1-hush4.patch
 Patch38: uClibc-0.9.30.1-mknod.patch
-Patch39: busybox-1.15.1-echo.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -79,7 +78,6 @@ cat %{SOURCE4} >uClibc-0.9.30.1/.config1
 %patch36 -b .uncompress -p1
 %patch37 -b .hush4 -p1
 %patch38 -b .mknod -p1
-%patch39 -b .echo -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -159,10 +157,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
-* Tue Feb  3 2015 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-16.1
-- Resolves: #1183005
-  "Echo command in busybox writes wrong data after write error"
-
 * Wed Jul  3 2013 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-16
 - Resolves: #859817
 - "mknod in busybox can not create device file with major number greater than 255"
