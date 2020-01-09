@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.15.1
-Release: 20%{?dist}
+Release: 21%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -33,6 +33,7 @@ Patch39: busybox-1.15.1-platform.patch
 Patch40: busybox-1.15.1-mount.patch
 Patch41: busybox-1.15.1-mdev.patch
 Patch42: uClibc-0.9.30.1.pmap_getport.patch
+Patch43: busybox-1.15.1-echo.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -86,6 +87,7 @@ cat %{SOURCE4} >uClibc-0.9.30.1/.config1
 %patch40 -b .mount -p1
 %patch41 -b .mdev -p1
 %patch42 -b .pmap_getport -p1
+%patch43 -b .echo -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -165,6 +167,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Tue Jan 27 2015 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-21
+- Resolves: #1183005
+  "Echo command in busybox writes wrong data after write error"
+
 * Mon Oct 21 2013 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-20
 - Resolves: #855832
   "Installation from NFS: That directory could not be mounted from the server"
