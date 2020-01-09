@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.15.1
-Release: 16%{?dist}
+Release: 20%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -29,6 +29,10 @@ Patch35: busybox-1.15.1-udhcp.patch
 Patch36: busybox-1.15.1-uncompress.patch
 Patch37: busybox-1.15.1-hush4.patch
 Patch38: uClibc-0.9.30.1-mknod.patch
+Patch39: busybox-1.15.1-platform.patch
+Patch40: busybox-1.15.1-mount.patch
+Patch41: busybox-1.15.1-mdev.patch
+Patch42: uClibc-0.9.30.1.pmap_getport.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -78,6 +82,10 @@ cat %{SOURCE4} >uClibc-0.9.30.1/.config1
 %patch36 -b .uncompress -p1
 %patch37 -b .hush4 -p1
 %patch38 -b .mknod -p1
+%patch39 -b .platform -p1
+%patch40 -b .mount -p1
+%patch41 -b .mdev -p1
+%patch42 -b .pmap_getport -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -157,6 +165,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon Oct 21 2013 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-20
+- Resolves: #855832
+  "Installation from NFS: That directory could not be mounted from the server"
+  by switching NFS mount default from UDP to TCP.
+  There was another place (in uclibc this time) which used UDP.
+
+* Thu Oct  3 2013 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-19
+- Resolves: #1015010
+  "busybox: insecure directory permissions in /dev"
+
+* Tue Sep 17 2013 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-18
+- Resolves: #855832
+  "Installation from NFS: That directory could not be mounted from the server"
+  by switching NFS mount default from UDP to TCP.
+
+* Mon Sep  9 2013 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-17
+- Resolves: #820097
+- "s390x: wc: : No such file or directory"
+
 * Wed Jul  3 2013 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-16
 - Resolves: #859817
 - "mknod in busybox can not create device file with major number greater than 255"
